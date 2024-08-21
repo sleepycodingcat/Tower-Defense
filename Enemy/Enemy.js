@@ -38,11 +38,18 @@ export default class Enemy extends Sprite {
 
     this.vars.moveSpeed = 3;
     this.vars.turnSpeed = 6;
+    this.vars.clone = 10;
   }
 
   *whenGreenFlagClicked() {
+    this.vars.clone = 0;
+    this.stage.vars.enemyx = [];
+    this.stage.vars.enemyy = [];
+    this.stage.vars.enemyprogress = [];
+    this.stage.vars.enemyids = [];
     this.visible = false;
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 10; i++) {
+      this.vars.clone++;
       this.createClone();
       yield* this.wait(0.2);
       yield;
@@ -50,6 +57,15 @@ export default class Enemy extends Sprite {
   }
 
   *enemyMovement() {
+    this.stage.vars.enemyx.splice(this.vars.clone - 1, 1, this.x);
+    this.stage.vars.enemyy.splice(this.vars.clone - 1, 1, this.y);
+    this.stage.vars.enemyprogress.splice(
+      this.vars.clone - 1,
+      1,
+      this.toNumber(
+        this.itemOf(this.stage.vars.enemyprogress, this.vars.clone - 1)
+      ) + this.toNumber(this.vars.moveSpeed)
+    );
     this.move(this.toNumber(this.vars.moveSpeed));
     this.costume = "costume1";
     if (this.touching(this.sprites["Line"].andClones())) {
@@ -63,13 +79,17 @@ export default class Enemy extends Sprite {
   }
 
   *startAsClone() {
+    this.visible = true;
+    this.vars.moveSpeed = 4;
+    this.vars.turnSpeed = 9;
+    this.stage.vars.enemyx.push("");
+    this.stage.vars.enemyy.push("");
+    this.stage.vars.enemyprogress.push(0);
+    this.stage.vars.enemyids.push(this.vars.clone);
     this.goto(-192, -170);
     this.size = 60;
     this.direction = 0;
     this.costume = "costume3";
-    this.visible = true;
-    this.vars.moveSpeed = 4;
-    this.vars.turnSpeed = 9;
     while (true) {
       yield* this.enemyMovement();
       yield;
@@ -82,7 +102,13 @@ export default class Enemy extends Sprite {
     }
     while (true) {
       if (this.touching("edge")) {
-        this.visible = false;
+        this.stage.vars.enemyx.splice(this.vars.clone - 1, 1, "");
+        this.stage.vars.enemyy.splice(this.vars.clone - 1, 1, "");
+        this.stage.vars.enemyids.splice(
+          this.indexInArray(this.stage.vars.enemyids, this.vars.clone),
+          1
+        );
+        this.deleteThisClone();
       }
       yield;
     }

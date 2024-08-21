@@ -23,5 +23,24 @@ export default class Stage extends StageBase {
     this.sounds = [new Sound("pop", "./Stage/sounds/pop.wav")];
 
     this.triggers = [];
+
+    this.vars.canshowradiuscircle = "no";
+    this.vars.viewradius = 100;
+    this.vars.enemycheck = 0;
+    this.vars.enemyx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    this.vars.enemyy = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    this.vars.enemyprogress = [
+      856, 856, 856, 856, 856, 856, 856, 856, 856, 856,
+    ];
+    this.vars.enemyids = [];
+
+    this.watchers.enemycheck = new Watcher({
+      label: "EnemyCheck#",
+      style: "normal",
+      visible: true,
+      value: () => this.vars.enemycheck,
+      x: 245,
+      y: 149,
+    });
   }
 }
