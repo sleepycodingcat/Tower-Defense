@@ -26,6 +26,10 @@ export default class Enemy extends Sprite {
         x: 16.651025000000004,
         y: 16.651025000000004,
       }),
+      new Costume("pop", "./Enemy/costumes/pop.svg", {
+        x: 25.757362667166433,
+        y: 29.48874636913419,
+      }),
     ];
 
     this.sounds = [new Sound("Meow", "./Enemy/sounds/Meow.wav")];
@@ -38,7 +42,7 @@ export default class Enemy extends Sprite {
 
     this.vars.moveSpeed = 3;
     this.vars.turnSpeed = 6;
-    this.vars.clone = 10;
+    this.vars.clone = 45;
   }
 
   *whenGreenFlagClicked() {
@@ -48,7 +52,7 @@ export default class Enemy extends Sprite {
     this.stage.vars.enemyprogress = [];
     this.stage.vars.enemyids = [];
     this.visible = false;
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 50; i++) {
       this.vars.clone++;
       this.createClone();
       yield* this.wait(0.2);
@@ -91,7 +95,17 @@ export default class Enemy extends Sprite {
     this.direction = 0;
     this.costume = "costume3";
     while (true) {
-      yield* this.enemyMovement();
+      this.moveBehind();
+      this.moveAhead(1);
+      if (
+        !(
+          this.toString(
+            this.itemOf(this.stage.vars.enemyprogress, this.vars.clone - 1)
+          ) === "dead"
+        )
+      ) {
+        yield* this.enemyMovement();
+      }
       yield;
     }
   }
@@ -101,13 +115,20 @@ export default class Enemy extends Sprite {
       yield;
     }
     while (true) {
-      if (this.touching("edge")) {
+      if (
+        this.toString(
+          this.itemOf(this.stage.vars.enemyprogress, this.vars.clone - 1)
+        ) === "dead" ||
+        this.touching("edge")
+      ) {
         this.stage.vars.enemyx.splice(this.vars.clone - 1, 1, "");
         this.stage.vars.enemyy.splice(this.vars.clone - 1, 1, "");
         this.stage.vars.enemyids.splice(
           this.indexInArray(this.stage.vars.enemyids, this.vars.clone),
           1
         );
+        this.costume = "pop";
+        yield* this.wait(0.05);
         this.deleteThisClone();
       }
       yield;

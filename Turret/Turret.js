@@ -15,8 +15,12 @@ export default class Turret extends Sprite {
 
     this.costumes = [
       new Costume("costume1", "./Turret/costumes/costume1.svg", {
-        x: 18.625,
-        y: 18.625,
+        x: 20.12499999999997,
+        y: 20.125,
+      }),
+      new Costume("costume2", "./Turret/costumes/costume2.svg", {
+        x: 20.125,
+        y: 20.125,
       }),
     ];
 
@@ -25,29 +29,26 @@ export default class Turret extends Sprite {
     this.triggers = [
       new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
       new Trigger(Trigger.CLONE_START, this.startAsClone),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "PlaceTurret" },
+        this.whenIReceivePlaceturret
+      ),
       new Trigger(Trigger.CLONE_START, this.startAsClone2),
     ];
 
-    this.vars.mouseAction = "selected";
+    this.vars.mouseAction = "no";
     this.vars.targetenemy = 0;
     this.vars.enemycheckId = 0;
     this.vars.enemydistance = 0;
     this.vars.furthestenemydist = 0;
-
-    this.watchers.enemycheckId = new Watcher({
-      label: "Turret: EnemyCheck#ID",
-      style: "normal",
-      visible: true,
-      value: () => this.vars.enemycheckId,
-      x: 245,
-      y: 175,
-    });
+    this.vars.canshoot = 0;
   }
 
   *whenGreenFlagClicked() {
-    this.size = 65;
+    this.size = 40;
     this.costume = "costume1";
-    this.goto(205, 158);
+    this.goto(196, 158);
     this.vars.mouseAction = "none";
     this.stage.vars.canshowradiuscircle = "no";
     while (true) {
@@ -57,12 +58,17 @@ export default class Turret extends Sprite {
           yield;
         }
         this.createClone();
+        this.sprites["Base"].createClone();
+        this.sprites["Turretcollider"].createClone();
+        this.sprites["Placedturretcollider"].createClone();
       }
       yield;
     }
   }
 
   *startAsClone() {
+    this.vars.canshoot = "no";
+    this.size = 50;
     while (true) {
       if (this.toString(this.vars.mouseAction) === "selected") {
         this.stage.vars.canshowradiuscircle = "yes";
@@ -70,25 +76,23 @@ export default class Turret extends Sprite {
       } else {
         yield* this.turretaimandshoot();
       }
-      yield;
-    }
-  }
-
-  *startAsClone2() {
-    this.size = 75;
-    while (true) {
-      if (this.mouse.down) {
-        while (!!this.mouse.down) {
-          yield;
-        }
-        this.stage.vars.canshowradiuscircle = "no";
-        this.vars.mouseAction = "none";
+      if (this.toString(this.vars.canshoot) === "yes") {
+        this.stage.vars.enemyprogress.splice(
+          this.vars.targetenemy - 1,
+          1,
+          "dead"
+        );
+        this.costume = "costume2";
+        yield* this.wait(0.05);
+        this.costume = "costume1";
+        yield* this.wait(0.6);
       }
       yield;
     }
   }
 
   *turretaimandshoot() {
+    this.vars.canshoot = "no";
     this.vars.targetenemy = "none";
     this.stage.vars.enemycheck = 0;
     this.vars.furthestenemydist = -999;
@@ -120,6 +124,7 @@ export default class Turret extends Sprite {
       }
     }
     if (!(this.toString(this.vars.targetenemy) === "none")) {
+      this.vars.canshoot = "yes";
       if (
         this.compare(
           this.itemOf(this.stage.vars.enemyx, this.vars.targetenemy - 1),
@@ -164,5 +169,18 @@ export default class Turret extends Sprite {
       (this.toNumber(enemyx) - this.x) * (this.toNumber(enemyx) - this.x) +
         (this.toNumber(enemyy) - this.y) * (this.toNumber(enemyy) - this.y)
     );
+  }
+
+  *whenIReceivePlaceturret() {
+    this.stage.vars.canshowradiuscircle = "no";
+    this.vars.mouseAction = "no";
+  }
+
+  *startAsClone2() {
+    while (true) {
+      this.moveAhead();
+      this.moveBehind(1);
+      yield;
+    }
   }
 }

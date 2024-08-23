@@ -15,8 +15,8 @@ export default class TurretRange extends Sprite {
 
     this.costumes = [
       new Costume("costume1", "./TurretRange/costumes/costume1.svg", {
-        x: 100.5,
-        y: 100.49999999999997,
+        x: 99.62205882352939,
+        y: 99.62205882352944,
       }),
     ];
 
@@ -29,7 +29,7 @@ export default class TurretRange extends Sprite {
 
   *whenGreenFlagClicked() {
     this.visible = false;
-    this.stage.vars.viewradius = 100;
+    this.stage.vars.viewradius = 80;
     this.effects.ghost = 50;
     while (true) {
       if (this.toString(this.stage.vars.canshowradiuscircle) === "yes") {
@@ -38,6 +38,10 @@ export default class TurretRange extends Sprite {
       } else {
         this.visible = false;
       }
+      this.visible = true;
+      this.size = (this.toNumber(this.stage.vars.viewradius) / 100) * 100;
+      this.moveAhead();
+      this.moveBehind(10);
       yield;
     }
   }
