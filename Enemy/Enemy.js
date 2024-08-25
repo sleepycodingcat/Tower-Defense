@@ -49,10 +49,10 @@ export default class Enemy extends Sprite {
       ),
     ];
 
-    this.vars.moveSpeed = 2;
-    this.vars.turnSpeed = 5;
-    this.vars.clone = 10;
-    this.vars.clonecostumename = "normal";
+    this.vars.moveSpeed = 4;
+    this.vars.turnSpeed = 10;
+    this.vars.clone = 0;
+    this.vars.clonecostumename = "fast";
   }
 
   *whenGreenFlagClicked() {

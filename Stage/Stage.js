@@ -28,27 +28,18 @@ export default class Stage extends StageBase {
     this.vars.enemycheck = 0;
     this.vars.selectedturret = 0;
     this.vars.draggingturretonmap = "no";
-    this.vars.wave = 1;
-    this.vars.canbeginnextwave = "yes";
-    this.vars.donespawning = "yes";
-    this.vars.cash = 85;
+    this.vars.wave = 5;
+    this.vars.canbeginnextwave = "no";
+    this.vars.donespawning = "no";
+    this.vars.cash = 8;
     this.vars.canmakeclonesofwave = "no";
-    this.vars.enemyx = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.vars.enemyy = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    this.vars.enemyprogress = [
-      "dead",
-      "dead",
-      "dead",
-      "dead",
-      "dead",
-      "dead",
-      "dead",
-      "dead",
-      "dead",
-      "dead",
-    ];
+    this.vars.shopopen = "no";
+    this.vars.shopdescription = 1;
+    this.vars.enemyx = [];
+    this.vars.enemyy = [];
+    this.vars.enemyprogress = [];
     this.vars.enemyids = [];
-    this.vars.turretx = [-226];
-    this.vars.turrety = [-64];
+    this.vars.turretx = [82, -107, 74, -56, 61, 29, -34];
+    this.vars.turrety = [-33, -58, 40, -106, 1, 156, 42];
   }
 }

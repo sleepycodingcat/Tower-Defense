@@ -17,6 +17,10 @@ import Startwavebuttonsprite1 from "./Startwavebuttonsprite1/Startwavebuttonspri
 import Wavewave2 from "./Wavewave2/Wavewave2.js";
 import Wave from "./Wave/Wave.js";
 import Cash from "./Cash/Cash.js";
+import ShopButton from "./ShopButton/ShopButton.js";
+import ShopBackground from "./ShopBackground/ShopBackground.js";
+import Turreticon from "./Turreticon/Turreticon.js";
+import TurretDescription from "./TurretDescription/TurretDescription.js";
 
 const stage = new Stage({ costumeNumber: 1 });
 
@@ -26,7 +30,7 @@ const sprites = {
     y: 0,
     direction: 114,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
-    costumeNumber: 3,
+    costumeNumber: 4,
     size: 60,
     visible: false,
     layerOrder: 7,
@@ -58,18 +62,18 @@ const sprites = {
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 40,
-    visible: true,
-    layerOrder: 12,
+    visible: false,
+    layerOrder: 11,
   }),
   TurretRange: new TurretRange({
-    x: -226,
-    y: -64,
+    x: -34,
+    y: 42,
     direction: 90,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 80,
     visible: false,
-    layerOrder: 9,
+    layerOrder: 17,
   }),
   Base: new Base({
     x: 196,
@@ -78,7 +82,7 @@ const sprites = {
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 40,
-    visible: true,
+    visible: false,
     layerOrder: 3,
   }),
   Turretcollider: new Turretcollider({
@@ -117,7 +121,7 @@ const sprites = {
     direction: 90,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
-    size: 50.4,
+    size: 50.39999999999999,
     visible: true,
     layerOrder: 13,
   }),
@@ -129,7 +133,7 @@ const sprites = {
     costumeNumber: 1,
     size: 100,
     visible: true,
-    layerOrder: 11,
+    layerOrder: 10,
   }),
   Wave: new Wave({
     x: 130,
@@ -149,7 +153,47 @@ const sprites = {
     costumeNumber: 11,
     size: 30,
     visible: false,
-    layerOrder: 10,
+    layerOrder: 9,
+  }),
+  ShopButton: new ShopButton({
+    x: 228,
+    y: 150,
+    direction: 90,
+    rotationStyle: Sprite.RotationStyle.ALL_AROUND,
+    costumeNumber: 1,
+    size: 100,
+    visible: true,
+    layerOrder: 12,
+  }),
+  ShopBackground: new ShopBackground({
+    x: 185,
+    y: 0,
+    direction: 90,
+    rotationStyle: Sprite.RotationStyle.ALL_AROUND,
+    costumeNumber: 1,
+    size: 100,
+    visible: false,
+    layerOrder: 14,
+  }),
+  Turreticon: new Turreticon({
+    x: 186,
+    y: 138,
+    direction: 90,
+    rotationStyle: Sprite.RotationStyle.ALL_AROUND,
+    costumeNumber: 1,
+    size: 50,
+    visible: false,
+    layerOrder: 15,
+  }),
+  TurretDescription: new TurretDescription({
+    x: 186,
+    y: -156,
+    direction: 90,
+    rotationStyle: Sprite.RotationStyle.ALL_AROUND,
+    costumeNumber: 1,
+    size: 100,
+    visible: false,
+    layerOrder: 16,
   }),
 };
 

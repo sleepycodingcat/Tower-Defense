@@ -36,18 +36,19 @@ export default class Base extends Sprite {
   }
 
   *whenGreenFlagClicked() {
-    this.goto(196, 158);
     this.size = 40;
     this.moveBehind();
-    this.visible = true;
+    this.visible = false;
+    this.goto(196, 158);
   }
 
   *startAsClone() {
+    this.visible = true;
     this.size = 50;
     this.vars.mouseaction = "selected";
     while (true) {
       this.moveAhead();
-      this.moveBehind(5);
+      this.moveBehind(7);
       if (this.toString(this.vars.mouseaction) === "selected") {
         this.goto(this.mouse.x, this.mouse.y);
       }
