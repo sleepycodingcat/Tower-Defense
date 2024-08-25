@@ -51,13 +51,18 @@ export default class Enemy extends Sprite {
 
     this.vars.moveSpeed = 2;
     this.vars.turnSpeed = 5;
-    this.vars.clone = 6;
+    this.vars.clone = 10;
     this.vars.clonecostumename = "normal";
   }
 
   *whenGreenFlagClicked() {
     this.visible = false;
+    this.stage.vars.enemyx = [];
+    this.stage.vars.enemyy = [];
+    this.stage.vars.enemyprogress = [];
+    this.stage.vars.enemyids = [];
     this.stage.vars.wave = 0;
+    this.stage.vars.cash = 100;
     while (!(this.toNumber(this.stage.vars.wave) === 1)) {
       yield;
     }
@@ -77,6 +82,13 @@ export default class Enemy extends Sprite {
     yield* this.wait(0);
     yield* this.spawnenemy("normal", 35, 0.5);
     yield* this.spawnenemy("fast", 25, 0.3);
+    this.stage.vars.donespawning = "yes";
+    while (!(this.toNumber(this.stage.vars.wave) === 4)) {
+      yield;
+    }
+    yield* this.wait(0);
+    yield* this.spawnenemy("normal", 40, 0.5);
+    yield* this.spawnenemy("fast", 40, 0.3);
     this.stage.vars.donespawning = "yes";
   }
 
@@ -136,18 +148,13 @@ export default class Enemy extends Sprite {
       if (
         this.toString(
           this.itemOf(this.stage.vars.enemyprogress, this.vars.clone - 1)
-        ) === "dead" ||
-        this.touching("edge")
+        ) === "dead"
       ) {
-        this.stage.vars.enemyx.splice(this.vars.clone - 1, 1, "");
-        this.stage.vars.enemyy.splice(this.vars.clone - 1, 1, "");
-        this.stage.vars.enemyids.splice(
-          this.indexInArray(this.stage.vars.enemyids, this.vars.clone),
-          1
-        );
-        this.costume = "pop";
-        yield* this.wait(0.05);
-        this.deleteThisClone();
+        this.stage.vars.cash++;
+        yield* this.enemydestroyed();
+      }
+      if (this.touching("edge")) {
+        yield* this.enemydestroyed();
       }
       yield;
     }
@@ -180,5 +187,17 @@ export default class Enemy extends Sprite {
     this.stage.vars.enemyprogress = [];
     this.stage.vars.enemyids = [];
     this.vars.clone = 0;
+  }
+
+  *enemydestroyed() {
+    this.stage.vars.enemyx.splice(this.vars.clone - 1, 1, "");
+    this.stage.vars.enemyy.splice(this.vars.clone - 1, 1, "");
+    this.stage.vars.enemyids.splice(
+      this.indexInArray(this.stage.vars.enemyids, this.vars.clone),
+      1
+    );
+    this.costume = "pop";
+    yield* this.wait(0.05);
+    this.deleteThisClone();
   }
 }

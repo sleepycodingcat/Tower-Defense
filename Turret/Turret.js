@@ -37,14 +37,14 @@ export default class Turret extends Sprite {
       new Trigger(Trigger.CLONE_START, this.startAsClone2),
     ];
 
-    this.vars.mouseAction = "selected";
+    this.vars.mouseAction = "none";
     this.vars.targetenemy = 0;
     this.vars.enemycheckId = 0;
     this.vars.enemydistance = 0;
     this.vars.furthestenemydist = 0;
     this.vars.canshoot = 0;
     this.vars.isoriginalsprite = "yes";
-    this.vars.turretclone = 3;
+    this.vars.turretclone = 1;
   }
 
   *whenGreenFlagClicked() {
@@ -59,17 +59,19 @@ export default class Turret extends Sprite {
     this.stage.vars.turretx = [];
     this.stage.vars.turrety = [];
     while (true) {
-      if (this.touching("mouse") && this.mouse.down) {
-        this.vars.mouseAction = "selected";
-        this.stage.vars.draggingturretonmap = "yes";
-        while (!(this.touching("mouse") && !this.mouse.down)) {
-          yield;
+      if (this.touching("mouse")) {
+        if (this.mouse.down) {
+          this.vars.mouseAction = "selected";
+        } else {
+          if (this.toString(this.vars.mouseAction) === "selected") {
+            if (!(this.compare(this.stage.vars.cash, 50) < 0)) {
+              this.stage.vars.cash -= 50;
+              yield* this.placeturret();
+            }
+          }
         }
-        this.vars.turretclone++;
-        this.createClone();
-        this.sprites["Base"].createClone();
-        this.sprites["Turretcollider"].createClone();
-        this.sprites["Placedturretcollider"].createClone();
+      } else {
+        this.vars.mouseAction = "none";
       }
       yield;
     }
@@ -93,7 +95,7 @@ export default class Turret extends Sprite {
           "dead"
         );
         this.costume = "costume2";
-        yield* this.wait(0.05);
+        yield* this.wait(0.1);
         this.costume = "costume1";
         yield* this.wait(0.6);
       }
@@ -206,6 +208,18 @@ export default class Turret extends Sprite {
   *checkturretdetails() {
     if (this.mouse.down && this.touching("mouse")) {
       this.stage.vars.selectedturret = this.vars.turretclone;
+    }
+  }
+
+  *placeturret() {
+    this.stage.vars.draggingturretonmap = "yes";
+    this.vars.turretclone++;
+    this.createClone();
+    this.sprites["Base"].createClone();
+    this.sprites["Turretcollider"].createClone();
+    this.sprites["Placedturretcollider"].createClone();
+    while (!this.mouse.down) {
+      yield;
     }
   }
 }

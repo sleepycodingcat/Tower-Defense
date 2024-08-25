@@ -31,6 +31,11 @@ export default class Startwavebuttonsprite1 extends Sprite {
         this.whenIReceiveNewwave
       ),
       new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked2),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "Finished wave " },
+        this.whenIReceiveFinishedWave
+      ),
     ];
   }
 
@@ -61,6 +66,7 @@ export default class Startwavebuttonsprite1 extends Sprite {
           this.toString(this.stage.vars.donespawning) === "yes" &&
           this.stage.vars.enemyids.length === 0
         ) {
+          this.broadcast("Finished wave ");
           this.stage.vars.canbeginnextwave = "yes";
         }
       }
@@ -84,5 +90,9 @@ export default class Startwavebuttonsprite1 extends Sprite {
       }
       yield;
     }
+  }
+
+  *whenIReceiveFinishedWave() {
+    this.stage.vars.cash += 25;
   }
 }
