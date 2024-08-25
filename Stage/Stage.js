@@ -25,37 +25,17 @@ export default class Stage extends StageBase {
     this.triggers = [];
 
     this.vars.viewradius = 80;
-    this.vars.enemycheck = 23;
+    this.vars.enemycheck = 3;
     this.vars.selectedturret = 0;
     this.vars.draggingturretonmap = "no";
-    this.vars.enemyx = [
-      -155.57324276529295, -177.23990489831112, -178.9763866749804,
-      -182.44935022831896, -189.39527733499608,
-    ];
-    this.vars.enemyy = [
-      16.079735440927788, -16.29134099396235, -56.139418524084434,
-      -95.8355735843286, -135.22788370481692,
-    ];
-    this.vars.enemyprogress = [200, 160, 120, 80, 40];
-    this.vars.enemyids = [1, 2, 3, 4, 5];
-    this.vars.turretx = [];
-    this.vars.turrety = [];
-
-    this.watchers.selectedturret = new Watcher({
-      label: "SelectedTurret#",
-      style: "normal",
-      visible: true,
-      value: () => this.vars.selectedturret,
-      x: 251,
-      y: 130,
-    });
-    this.watchers.draggingturretonmap = new Watcher({
-      label: "DraggingTurretOnMap",
-      style: "normal",
-      visible: true,
-      value: () => this.vars.draggingturretonmap,
-      x: 245,
-      y: 175,
-    });
+    this.vars.wave = 2;
+    this.vars.canbeginnextwave = "no";
+    this.vars.donespawning = "no";
+    this.vars.enemyx = [0, 0, 0, -182.2981636497013, -189.73527730421773, -192];
+    this.vars.enemyy = [0, 0, 0, -96.9705122145588, -130.11410113595727, -164];
+    this.vars.enemyprogress = ["dead", "dead", "dead", 76, 42, 8];
+    this.vars.enemyids = [4, 5, 6];
+    this.vars.turretx = [-49, 59, -122];
+    this.vars.turrety = [74, 53, -36];
   }
 }

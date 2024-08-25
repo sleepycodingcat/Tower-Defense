@@ -13,6 +13,9 @@ import Base from "./Base/Base.js";
 import Turretcollider from "./Turretcollider/Turretcollider.js";
 import Placedturretcollider from "./Placedturretcollider/Placedturretcollider.js";
 import Screenbg from "./Screenbg/Screenbg.js";
+import Startwavebuttonsprite1 from "./Startwavebuttonsprite1/Startwavebuttonsprite1.js";
+import Wave from "./Wave/Wave.js";
+import Wave2 from "./Wave2/Wave2.js";
 
 const stage = new Stage({ costumeNumber: 1 });
 
@@ -22,10 +25,10 @@ const sprites = {
     y: 0,
     direction: 114,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
-    costumeNumber: 4,
+    costumeNumber: 3,
     size: 60,
     visible: false,
-    layerOrder: 8,
+    layerOrder: 7,
   }),
   Line: new Line({
     x: 0,
@@ -35,7 +38,7 @@ const sprites = {
     costumeNumber: 1,
     size: 100,
     visible: true,
-    layerOrder: 6,
+    layerOrder: 5,
   }),
   Path: new Path({
     x: 0,
@@ -55,17 +58,17 @@ const sprites = {
     costumeNumber: 1,
     size: 40,
     visible: true,
-    layerOrder: 9,
+    layerOrder: 10,
   }),
   TurretRange: new TurretRange({
-    x: 73,
-    y: 43,
+    x: -122,
+    y: -36,
     direction: 90,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 80,
     visible: false,
-    layerOrder: 3,
+    layerOrder: 11,
   }),
   Base: new Base({
     x: 196,
@@ -75,7 +78,7 @@ const sprites = {
     costumeNumber: 1,
     size: 40,
     visible: true,
-    layerOrder: 5,
+    layerOrder: 4,
   }),
   Turretcollider: new Turretcollider({
     x: 196,
@@ -85,7 +88,7 @@ const sprites = {
     costumeNumber: 1,
     size: 40,
     visible: false,
-    layerOrder: 4,
+    layerOrder: 3,
   }),
   Placedturretcollider: new Placedturretcollider({
     x: -65.21815858178056,
@@ -94,8 +97,8 @@ const sprites = {
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 40,
-    visible: false,
-    layerOrder: 7,
+    visible: true,
+    layerOrder: 6,
   }),
   Screenbg: new Screenbg({
     x: 0,
@@ -106,6 +109,36 @@ const sprites = {
     size: 100,
     visible: true,
     layerOrder: 2,
+  }),
+  Startwavebuttonsprite1: new Startwavebuttonsprite1({
+    x: -206,
+    y: 147,
+    direction: 90,
+    rotationStyle: Sprite.RotationStyle.ALL_AROUND,
+    costumeNumber: 1,
+    size: 50.4,
+    visible: true,
+    layerOrder: 12,
+  }),
+  Wave: new Wave({
+    x: -146,
+    y: 145,
+    direction: 90,
+    rotationStyle: Sprite.RotationStyle.ALL_AROUND,
+    costumeNumber: 1,
+    size: 100,
+    visible: true,
+    layerOrder: 8,
+  }),
+  Wave2: new Wave2({
+    x: 239,
+    y: 149,
+    direction: 90,
+    rotationStyle: Sprite.RotationStyle.ALL_AROUND,
+    costumeNumber: 10,
+    size: 45,
+    visible: false,
+    layerOrder: 9,
   }),
 };
 

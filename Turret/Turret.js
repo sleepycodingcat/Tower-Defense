@@ -37,14 +37,14 @@ export default class Turret extends Sprite {
       new Trigger(Trigger.CLONE_START, this.startAsClone2),
     ];
 
-    this.vars.mouseAction = "none";
+    this.vars.mouseAction = "selected";
     this.vars.targetenemy = 0;
     this.vars.enemycheckId = 0;
     this.vars.enemydistance = 0;
     this.vars.furthestenemydist = 0;
     this.vars.canshoot = 0;
     this.vars.isoriginalsprite = "yes";
-    this.vars.turretclone = 0;
+    this.vars.turretclone = 3;
   }
 
   *whenGreenFlagClicked() {

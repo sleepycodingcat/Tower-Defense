@@ -42,32 +42,42 @@ export default class Enemy extends Sprite {
       new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
       new Trigger(Trigger.CLONE_START, this.startAsClone),
       new Trigger(Trigger.CLONE_START, this.startAsClone2),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "NewWave" },
+        this.whenIReceiveNewwave
+      ),
     ];
 
-    this.vars.moveSpeed = 5;
-    this.vars.turnSpeed = 10;
-    this.vars.clone = 5;
-    this.vars.clonecostumename = "fast";
-
-    this.watchers.clonecostumename = new Watcher({
-      label: "Enemy: CloneCostumeName",
-      style: "normal",
-      visible: true,
-      value: () => this.vars.clonecostumename,
-      x: 245,
-      y: 104,
-    });
+    this.vars.moveSpeed = 2;
+    this.vars.turnSpeed = 5;
+    this.vars.clone = 6;
+    this.vars.clonecostumename = "normal";
   }
 
   *whenGreenFlagClicked() {
-    this.vars.clone = 0;
-    this.stage.vars.enemyx = [];
-    this.stage.vars.enemyy = [];
-    this.stage.vars.enemyprogress = [];
-    this.stage.vars.enemyids = [];
     this.visible = false;
-    yield* this.spawnenemy("normal", 20, 0.3);
-    yield* this.spawnenemy("fast", 20, 0.2);
+    this.stage.vars.wave = 0;
+    while (!(this.toNumber(this.stage.vars.wave) === 1)) {
+      yield;
+    }
+    yield* this.wait(0);
+    yield* this.spawnenemy("normal", 10, 0.5);
+    this.stage.vars.donespawning = "yes";
+    while (!(this.toNumber(this.stage.vars.wave) === 2)) {
+      yield;
+    }
+    yield* this.wait(0);
+    yield* this.spawnenemy("normal", 20, 0.5);
+    yield* this.spawnenemy("fast", 15, 0.3);
+    this.stage.vars.donespawning = "yes";
+    while (!(this.toNumber(this.stage.vars.wave) === 3)) {
+      yield;
+    }
+    yield* this.wait(0);
+    yield* this.spawnenemy("normal", 35, 0.5);
+    yield* this.spawnenemy("fast", 25, 0.3);
+    this.stage.vars.donespawning = "yes";
   }
 
   *enemyMovement() {
@@ -147,11 +157,11 @@ export default class Enemy extends Sprite {
     this.vars.clonecostumename = enemytype;
     this.costume = this.vars.clonecostumename;
     if (this.toString(enemytype) === "normal") {
-      this.vars.moveSpeed = 3;
-      this.vars.turnSpeed = 7;
+      this.vars.moveSpeed = 2;
+      this.vars.turnSpeed = 5;
     } else {
       if (this.toString(enemytype) === "fast") {
-        this.vars.moveSpeed = 5;
+        this.vars.moveSpeed = 4;
         this.vars.turnSpeed = 10;
       }
     }
@@ -161,5 +171,14 @@ export default class Enemy extends Sprite {
       yield* this.wait(this.toNumber(delay));
       yield;
     }
+  }
+
+  *whenIReceiveNewwave() {
+    this.stage.vars.donespawning = "no";
+    this.stage.vars.enemyx = [];
+    this.stage.vars.enemyy = [];
+    this.stage.vars.enemyprogress = [];
+    this.stage.vars.enemyids = [];
+    this.vars.clone = 0;
   }
 }
