@@ -12,6 +12,7 @@ import TurretRange from "./TurretRange/TurretRange.js";
 import Base from "./Base/Base.js";
 import Turretcollider from "./Turretcollider/Turretcollider.js";
 import Placedturretcollider from "./Placedturretcollider/Placedturretcollider.js";
+import Screenbg from "./Screenbg/Screenbg.js";
 
 const stage = new Stage({ costumeNumber: 1 });
 
@@ -24,7 +25,7 @@ const sprites = {
     costumeNumber: 4,
     size: 60,
     visible: false,
-    layerOrder: 6,
+    layerOrder: 8,
   }),
   Line: new Line({
     x: 0,
@@ -34,7 +35,7 @@ const sprites = {
     costumeNumber: 1,
     size: 100,
     visible: true,
-    layerOrder: 2,
+    layerOrder: 6,
   }),
   Path: new Path({
     x: 0,
@@ -47,24 +48,24 @@ const sprites = {
     layerOrder: 1,
   }),
   Turret: new Turret({
-    x: 105.99783129234693,
-    y: 11.995309127990671,
+    x: 196,
+    y: 158,
     direction: 90,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 40,
     visible: true,
-    layerOrder: 8,
+    layerOrder: 9,
   }),
   TurretRange: new TurretRange({
-    x: 187,
-    y: 80,
+    x: 73,
+    y: 43,
     direction: 90,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 80,
-    visible: true,
-    layerOrder: 7,
+    visible: false,
+    layerOrder: 3,
   }),
   Base: new Base({
     x: 196,
@@ -74,7 +75,7 @@ const sprites = {
     costumeNumber: 1,
     size: 40,
     visible: true,
-    layerOrder: 4,
+    layerOrder: 5,
   }),
   Turretcollider: new Turretcollider({
     x: 196,
@@ -84,7 +85,7 @@ const sprites = {
     costumeNumber: 1,
     size: 40,
     visible: false,
-    layerOrder: 3,
+    layerOrder: 4,
   }),
   Placedturretcollider: new Placedturretcollider({
     x: -65.21815858178056,
@@ -93,8 +94,18 @@ const sprites = {
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 40,
+    visible: false,
+    layerOrder: 7,
+  }),
+  Screenbg: new Screenbg({
+    x: 0,
+    y: 0,
+    direction: 90,
+    rotationStyle: Sprite.RotationStyle.ALL_AROUND,
+    costumeNumber: 1,
+    size: 100,
     visible: true,
-    layerOrder: 5,
+    layerOrder: 2,
   }),
 };
 

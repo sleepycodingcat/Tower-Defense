@@ -32,16 +32,33 @@ export default class TurretRange extends Sprite {
     this.stage.vars.viewradius = 80;
     this.effects.ghost = 50;
     while (true) {
-      if (this.toString(this.stage.vars.canshowradiuscircle) === "yes") {
-        this.visible = true;
-        this.goto(this.mouse.x, this.mouse.y);
-      } else {
-        this.visible = false;
-      }
-      this.visible = true;
       this.size = (this.toNumber(this.stage.vars.viewradius) / 100) * 100;
       this.moveAhead();
       this.moveBehind(10);
+      if (this.toString(this.stage.vars.draggingturretonmap) === "yes") {
+        this.visible = true;
+        this.goto(this.mouse.x, this.mouse.y);
+      } else {
+        if (this.toNumber(this.stage.vars.selectedturret) === 0) {
+          this.visible = false;
+        } else {
+          this.visible = true;
+          this.goto(
+            this.toNumber(
+              this.itemOf(
+                this.stage.vars.turretx,
+                this.stage.vars.selectedturret - 1
+              )
+            ),
+            this.toNumber(
+              this.itemOf(
+                this.stage.vars.turrety,
+                this.stage.vars.selectedturret - 1
+              )
+            )
+          );
+        }
+      }
       yield;
     }
   }
