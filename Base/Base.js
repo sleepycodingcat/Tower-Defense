@@ -14,9 +14,13 @@ export default class Base extends Sprite {
     super(...args);
 
     this.costumes = [
-      new Costume("costume1", "./Base/costumes/costume1.svg", {
+      new Costume("normal", "./Base/costumes/normal.svg", {
         x: 30.625,
         y: 30.625,
+      }),
+      new Costume("double", "./Base/costumes/double.svg", {
+        x: 30.625,
+        y: 30.625009999999975,
       }),
     ];
 
@@ -46,6 +50,7 @@ export default class Base extends Sprite {
     this.visible = true;
     this.size = 50;
     this.vars.mouseaction = "selected";
+    this.costume = this.stage.vars.currentturretbeingbought;
     while (true) {
       this.moveAhead();
       this.moveBehind(7);

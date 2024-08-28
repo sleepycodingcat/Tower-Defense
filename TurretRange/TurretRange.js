@@ -29,10 +29,17 @@ export default class TurretRange extends Sprite {
 
   *whenGreenFlagClicked() {
     this.visible = false;
-    this.stage.vars.viewradius = 80;
     this.effects.ghost = 50;
     while (true) {
-      this.size = (this.toNumber(this.stage.vars.viewradius) / 100) * 100;
+      this.size =
+        (this.toNumber(
+          this.itemOf(
+            this.stage.vars.turretviewradius,
+            this.stage.vars.selectedturret - 1
+          )
+        ) /
+          100) *
+        100;
       this.moveAhead();
       this.moveBehind(10);
       if (this.toString(this.stage.vars.draggingturretonmap) === "yes") {

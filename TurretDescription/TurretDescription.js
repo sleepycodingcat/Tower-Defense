@@ -14,9 +14,13 @@ export default class TurretDescription extends Sprite {
     super(...args);
 
     this.costumes = [
-      new Costume("costume1", "./TurretDescription/costumes/costume1.svg", {
+      new Costume("1", "./TurretDescription/costumes/1.svg", {
         x: 37.74666167577547,
         y: 23.561624200114068,
+      }),
+      new Costume("2", "./TurretDescription/costumes/2.svg", {
+        x: 37.72402668926998,
+        y: 23.267309739893733,
       }),
     ];
 
@@ -46,11 +50,15 @@ export default class TurretDescription extends Sprite {
     this.visible = true;
     while (true) {
       this.moveAhead();
-      if (this.toNumber(this.stage.vars.shopdescription) === 1) {
-        this.visible = true;
-        this.costume = "costume1";
-      } else {
+      if (
+        this.indexInArray(this.stage.vars.shopdescription, "show") + 1 ===
+        0
+      ) {
         this.visible = false;
+      } else {
+        this.visible = true;
+        this.costume =
+          this.indexInArray(this.stage.vars.shopdescription, "show") + 1;
       }
       yield;
     }

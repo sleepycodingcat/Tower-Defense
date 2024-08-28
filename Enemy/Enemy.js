@@ -49,9 +49,9 @@ export default class Enemy extends Sprite {
       ),
     ];
 
-    this.vars.moveSpeed = 4;
-    this.vars.turnSpeed = 10;
-    this.vars.clone = 0;
+    this.vars.moveSpeed = 6;
+    this.vars.turnSpeed = 18;
+    this.vars.clone = 10;
     this.vars.clonecostumename = "fast";
   }
 
@@ -74,21 +74,21 @@ export default class Enemy extends Sprite {
     }
     yield* this.wait(0);
     yield* this.spawnenemy("normal", 20, 0.5);
-    yield* this.spawnenemy("fast", 15, 0.3);
+    yield* this.spawnenemy("fast", 8, 0.3);
     this.stage.vars.donespawning = "yes";
     while (!(this.toNumber(this.stage.vars.wave) === 3)) {
       yield;
     }
     yield* this.wait(0);
-    yield* this.spawnenemy("normal", 35, 0.5);
-    yield* this.spawnenemy("fast", 25, 0.3);
+    yield* this.spawnenemy("normal", 15, 0.5);
+    yield* this.spawnenemy("fast", 30, 0.3);
     this.stage.vars.donespawning = "yes";
     while (!(this.toNumber(this.stage.vars.wave) === 4)) {
       yield;
     }
     yield* this.wait(0);
-    yield* this.spawnenemy("normal", 40, 0.5);
-    yield* this.spawnenemy("fast", 40, 0.3);
+    yield* this.spawnenemy("normal", 20, 0.5);
+    yield* this.spawnenemy("fast", 45, 0.3);
     this.stage.vars.donespawning = "yes";
   }
 
@@ -168,8 +168,8 @@ export default class Enemy extends Sprite {
       this.vars.turnSpeed = 5;
     } else {
       if (this.toString(enemytype) === "fast") {
-        this.vars.moveSpeed = 4;
-        this.vars.turnSpeed = 10;
+        this.vars.moveSpeed = 6;
+        this.vars.turnSpeed = 18;
       }
     }
     for (let i = 0; i < this.toNumber(ammount); i++) {

@@ -14,13 +14,25 @@ export default class Turret extends Sprite {
     super(...args);
 
     this.costumes = [
-      new Costume("costume1", "./Turret/costumes/costume1.svg", {
+      new Costume("normal", "./Turret/costumes/normal.svg", {
         x: 20.12499999999997,
         y: 20.125,
       }),
       new Costume("costume2", "./Turret/costumes/costume2.svg", {
         x: 20.125,
         y: 20.125,
+      }),
+      new Costume("double", "./Turret/costumes/double.svg", {
+        x: 20.125,
+        y: 20.125,
+      }),
+      new Costume("costume4", "./Turret/costumes/costume4.svg", {
+        x: 20.125,
+        y: 20.125,
+      }),
+      new Costume("costume5", "./Turret/costumes/costume5.svg", {
+        x: 20.125,
+        y: 23.089526736380236,
       }),
     ];
 
@@ -45,12 +57,15 @@ export default class Turret extends Sprite {
     this.vars.canshoot = 0;
     this.vars.isoriginalsprite = "yes";
     this.vars.turretclone = 0;
+    this.vars.turrettype = 0;
+    this.vars.turretreload = 0;
+    this.vars.viewradius = 0;
   }
 
   *whenGreenFlagClicked() {
     this.visible = false;
     this.size = 40;
-    this.costume = "costume1";
+    this.costume = "normal";
     this.goto(196, 158);
     this.vars.mouseAction = "none";
     this.vars.isoriginalsprite = "yes";
@@ -59,6 +74,7 @@ export default class Turret extends Sprite {
     this.stage.vars.selectedturret = 0;
     this.stage.vars.turretx = [];
     this.stage.vars.turrety = [];
+    this.stage.vars.turretviewradius = [];
   }
 
   *startAsClone() {
@@ -72,17 +88,10 @@ export default class Turret extends Sprite {
         this.goto(this.mouse.x, this.mouse.y);
       } else {
         yield* this.turretaimandshoot();
-      }
-      if (this.toString(this.vars.canshoot) === "yes") {
-        this.stage.vars.enemyprogress.splice(
-          this.vars.targetenemy - 1,
-          1,
-          "dead"
-        );
-        this.costume = "costume2";
-        yield* this.wait(0.1);
-        this.costume = "costume1";
-        yield* this.wait(0.6);
+        if (this.toString(this.vars.canshoot) === "yes") {
+          yield* this.shootanimation();
+          yield* this.wait(this.toNumber(this.vars.turretreload));
+        }
       }
       yield;
     }
@@ -104,7 +113,7 @@ export default class Turret extends Sprite {
         this.itemOf(this.stage.vars.enemyy, this.vars.enemycheckId - 1)
       );
       if (
-        this.compare(this.vars.enemydistance, this.stage.vars.viewradius) < 0 &&
+        this.compare(this.vars.enemydistance, this.vars.viewradius) < 0 &&
         this.compare(
           this.itemOf(
             this.stage.vars.enemyprogress,
@@ -198,11 +207,54 @@ export default class Turret extends Sprite {
 
   *buyturret() {
     this.visible = true;
+    this.vars.turrettype = this.stage.vars.currentturretbeingbought;
+    this.costume = this.vars.turrettype;
+    if (this.toString(this.vars.turrettype) === "normal") {
+      this.vars.turretreload = 0.6;
+      this.vars.viewradius = 110;
+    } else {
+      if (this.toString(this.vars.turrettype) === "double") {
+        this.vars.turretreload = 0.4;
+        this.vars.viewradius = 80;
+      } else {
+        null;
+      }
+    }
     this.vars.mouseAction = "selected";
     this.stage.vars.draggingturretonmap = "yes";
     this.vars.turretclone = this.stage.vars.turretx.length + 1;
+    this.stage.vars.turretviewradius.push(this.vars.viewradius);
     this.sprites["Base"].createClone();
     this.sprites["Turretcollider"].createClone();
     this.sprites["Placedturretcollider"].createClone();
+  }
+
+  *shootanimation() {
+    this.stage.vars.enemyprogress.splice(this.vars.targetenemy - 1, 1, "dead");
+    if (this.toString(this.vars.turrettype) === "normal") {
+      this.costume = "costume2";
+      yield* this.wait(0.1);
+      this.costume = "normal";
+    } else {
+      if (this.toString(this.vars.turrettype) === "double") {
+        this.costume = "costume4";
+        yield* this.wait(0.05);
+        this.costume = "double";
+        yield* this.wait(0.15);
+        yield* this.turretaimandshoot();
+        if (this.toString(this.vars.canshoot) === "yes") {
+          this.stage.vars.enemyprogress.splice(
+            this.vars.targetenemy - 1,
+            1,
+            "dead"
+          );
+          this.costume = "costume5";
+          yield* this.wait(0.05);
+          this.costume = "double";
+        }
+      } else {
+        null;
+      }
+    }
   }
 }

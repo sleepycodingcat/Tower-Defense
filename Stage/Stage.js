@@ -24,22 +24,37 @@ export default class Stage extends StageBase {
 
     this.triggers = [];
 
-    this.vars.viewradius = 80;
     this.vars.enemycheck = 0;
     this.vars.selectedturret = 0;
     this.vars.draggingturretonmap = "no";
-    this.vars.wave = 5;
-    this.vars.canbeginnextwave = "no";
-    this.vars.donespawning = "no";
-    this.vars.cash = 8;
+    this.vars.wave = 1;
+    this.vars.canbeginnextwave = "yes";
+    this.vars.donespawning = "yes";
+    this.vars.cash = 125;
     this.vars.canmakeclonesofwave = "no";
     this.vars.shopopen = "no";
-    this.vars.shopdescription = 1;
-    this.vars.enemyx = [];
-    this.vars.enemyy = [];
-    this.vars.enemyprogress = [];
+    this.vars.currentturretbeingbought = "double";
+    this.vars.enemyx = [
+      240.53882293954203, 240.53882293954203, 240.53882293954203,
+      240.53882293954203, 240.53882293954203, 240.53882293954203,
+      240.53882293954203, 240.53882293954203, 240.53882293954203,
+      240.53882293954203,
+    ];
+    this.vars.enemyy = [
+      -93.29074745993263, -93.29074745993263, -93.29074745993263,
+      -93.29074745993263, -93.29074745993263, -93.29074745993263,
+      -93.29074745993263, -93.29074745993263, -93.29074745993263,
+      -93.29074745993263,
+    ];
+    this.vars.enemyprogress = [
+      870, 870, 870, 870, 870, 870, 870, 870, 870, 870,
+    ];
     this.vars.enemyids = [];
-    this.vars.turretx = [82, -107, 74, -56, 61, 29, -34];
-    this.vars.turrety = [-33, -58, 40, -106, 1, 156, 42];
+    this.vars.turretx = [];
+    this.vars.turrety = [];
+    this.vars.turrettypes = ["normal", "double"];
+    this.vars.turretviewradius = [];
+    this.vars.shopdescription = ["hide", "hide"];
+    this.vars.turretcosts = [50, 100];
   }
 }
