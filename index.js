@@ -30,7 +30,7 @@ const sprites = {
     y: 0,
     direction: 114,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
-    costumeNumber: 4,
+    costumeNumber: 5,
     size: 60,
     visible: false,
     layerOrder: 7,
@@ -63,17 +63,17 @@ const sprites = {
     costumeNumber: 1,
     size: 40,
     visible: false,
-    layerOrder: 12,
+    layerOrder: 11,
   }),
   TurretRange: new TurretRange({
-    x: -140,
-    y: -125,
+    x: -126,
+    y: -123,
     direction: 90,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 2.509484277546449,
     visible: false,
-    layerOrder: 10,
+    layerOrder: 13,
   }),
   Base: new Base({
     x: 196,
@@ -102,7 +102,7 @@ const sprites = {
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 40,
-    visible: false,
+    visible: true,
     layerOrder: 6,
   }),
   Screenbg: new Screenbg({
@@ -123,7 +123,7 @@ const sprites = {
     costumeNumber: 1,
     size: 50.39999999999999,
     visible: true,
-    layerOrder: 17,
+    layerOrder: 16,
   }),
   Wavewave2: new Wavewave2({
     x: -146,
@@ -133,7 +133,7 @@ const sprites = {
     costumeNumber: 1,
     size: 100,
     visible: true,
-    layerOrder: 11,
+    layerOrder: 10,
   }),
   Wave: new Wave({
     x: 130,
@@ -163,7 +163,7 @@ const sprites = {
     costumeNumber: 1,
     size: 100,
     visible: true,
-    layerOrder: 13,
+    layerOrder: 12,
   }),
   ShopBackground: new ShopBackground({
     x: 185,
@@ -193,7 +193,7 @@ const sprites = {
     costumeNumber: 2,
     size: 100,
     visible: false,
-    layerOrder: 16,
+    layerOrder: 17,
   }),
 };
 

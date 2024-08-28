@@ -28,6 +28,10 @@ export default class Enemy extends Sprite {
       }),
       new Costume("fast", "./Enemy/costumes/fast.svg", {
         x: 16.651005000000026,
+        y: 16.650994999999938,
+      }),
+      new Costume("strong", "./Enemy/costumes/strong.svg", {
+        x: 16.651005000000026,
         y: 16.650994999999966,
       }),
       new Costume("pop", "./Enemy/costumes/pop.svg", {
@@ -49,10 +53,21 @@ export default class Enemy extends Sprite {
       ),
     ];
 
-    this.vars.moveSpeed = 6;
-    this.vars.turnSpeed = 18;
-    this.vars.clone = 10;
-    this.vars.clonecostumename = "fast";
+    this.vars.moveSpeed = 1;
+    this.vars.turnSpeed = 3;
+    this.vars.clone = 32;
+    this.vars.clonecostumename = "strong";
+    this.vars.health = 4;
+    this.vars.drawcashammount = 5;
+
+    this.watchers.drawcashammount = new Watcher({
+      label: "Enemy: DrawCashAmmount",
+      style: "normal",
+      visible: true,
+      value: () => this.vars.drawcashammount,
+      x: 245,
+      y: 175,
+    });
   }
 
   *whenGreenFlagClicked() {
@@ -61,6 +76,8 @@ export default class Enemy extends Sprite {
     this.stage.vars.enemyy = [];
     this.stage.vars.enemyprogress = [];
     this.stage.vars.enemyids = [];
+    this.stage.vars.enemyhealth = [];
+    this.stage.vars.maxenemyhealth = [];
     this.stage.vars.wave = 0;
     this.stage.vars.cash = 100;
     while (!(this.toNumber(this.stage.vars.wave) === 1)) {
@@ -75,6 +92,7 @@ export default class Enemy extends Sprite {
     yield* this.wait(0);
     yield* this.spawnenemy("normal", 20, 0.5);
     yield* this.spawnenemy("fast", 8, 0.3);
+    yield* this.spawnenemy("strong", 4, 0.8);
     this.stage.vars.donespawning = "yes";
     while (!(this.toNumber(this.stage.vars.wave) === 3)) {
       yield;
@@ -82,26 +100,19 @@ export default class Enemy extends Sprite {
     yield* this.wait(0);
     yield* this.spawnenemy("normal", 15, 0.5);
     yield* this.spawnenemy("fast", 30, 0.3);
+    yield* this.spawnenemy("strong", 10, 0.8);
     this.stage.vars.donespawning = "yes";
     while (!(this.toNumber(this.stage.vars.wave) === 4)) {
       yield;
     }
     yield* this.wait(0);
     yield* this.spawnenemy("normal", 20, 0.5);
-    yield* this.spawnenemy("fast", 45, 0.3);
+    yield* this.spawnenemy("fast", 30, 0.3);
+    yield* this.spawnenemy("strong", 15, 0.8);
     this.stage.vars.donespawning = "yes";
   }
 
   *enemyMovement() {
-    this.stage.vars.enemyx.splice(this.vars.clone - 1, 1, this.x);
-    this.stage.vars.enemyy.splice(this.vars.clone - 1, 1, this.y);
-    this.stage.vars.enemyprogress.splice(
-      this.vars.clone - 1,
-      1,
-      this.toNumber(
-        this.itemOf(this.stage.vars.enemyprogress, this.vars.clone - 1)
-      ) + this.toNumber(this.vars.moveSpeed)
-    );
     this.move(this.toNumber(this.vars.moveSpeed));
     this.costume = "costume1";
     if (this.touching(this.sprites["Line"].andClones())) {
@@ -112,6 +123,15 @@ export default class Enemy extends Sprite {
       this.direction += this.toNumber(this.vars.turnSpeed);
     }
     this.costume = this.vars.clonecostumename;
+    this.stage.vars.enemyx.splice(this.vars.clone - 1, 1, this.x);
+    this.stage.vars.enemyy.splice(this.vars.clone - 1, 1, this.y);
+    this.stage.vars.enemyprogress.splice(
+      this.vars.clone - 1,
+      1,
+      this.toNumber(
+        this.itemOf(this.stage.vars.enemyprogress, this.vars.clone - 1)
+      ) + this.toNumber(this.vars.moveSpeed)
+    );
   }
 
   *startAsClone() {
@@ -120,6 +140,8 @@ export default class Enemy extends Sprite {
     this.stage.vars.enemyy.push("");
     this.stage.vars.enemyprogress.push(0);
     this.stage.vars.enemyids.push(this.vars.clone);
+    this.stage.vars.enemyhealth.push(this.vars.health);
+    this.stage.vars.maxenemyhealth.push(this.vars.health);
     this.goto(-192, -170);
     this.size = 60;
     this.direction = 0;
@@ -128,14 +150,14 @@ export default class Enemy extends Sprite {
       this.moveBehind();
       this.moveAhead(1);
       if (
-        !(
-          this.toString(
-            this.itemOf(this.stage.vars.enemyprogress, this.vars.clone - 1)
-          ) === "dead"
-        )
+        this.compare(
+          this.itemOf(this.stage.vars.enemyhealth, this.vars.clone - 1),
+          0
+        ) > 0
       ) {
         yield* this.enemyMovement();
       }
+      this.broadcast("DrawHealthBars");
       yield;
     }
   }
@@ -146,11 +168,12 @@ export default class Enemy extends Sprite {
     }
     while (true) {
       if (
-        this.toString(
-          this.itemOf(this.stage.vars.enemyprogress, this.vars.clone - 1)
-        ) === "dead"
+        this.compare(
+          this.itemOf(this.stage.vars.enemyhealth, this.vars.clone - 1),
+          1
+        ) < 0
       ) {
-        this.stage.vars.cash++;
+        this.stage.vars.cash += this.toNumber(this.vars.drawcashammount);
         yield* this.enemydestroyed();
       }
       if (this.touching("edge")) {
@@ -166,10 +189,23 @@ export default class Enemy extends Sprite {
     if (this.toString(enemytype) === "normal") {
       this.vars.moveSpeed = 2;
       this.vars.turnSpeed = 5;
+      this.vars.health = 2;
+      this.vars.drawcashammount = 1;
     } else {
       if (this.toString(enemytype) === "fast") {
         this.vars.moveSpeed = 6;
         this.vars.turnSpeed = 18;
+        this.vars.health = 1;
+        this.vars.drawcashammount = 2;
+      } else {
+        if (this.toString(enemytype) === "strong") {
+          this.vars.moveSpeed = 1;
+          this.vars.turnSpeed = 3;
+          this.vars.health = 4;
+          this.vars.drawcashammount = 5;
+        } else {
+          null;
+        }
       }
     }
     for (let i = 0; i < this.toNumber(ammount); i++) {
@@ -186,12 +222,15 @@ export default class Enemy extends Sprite {
     this.stage.vars.enemyy = [];
     this.stage.vars.enemyprogress = [];
     this.stage.vars.enemyids = [];
+    this.stage.vars.enemyhealth = [];
+    this.stage.vars.maxenemyhealth = [];
     this.vars.clone = 0;
   }
 
   *enemydestroyed() {
     this.stage.vars.enemyx.splice(this.vars.clone - 1, 1, "");
     this.stage.vars.enemyy.splice(this.vars.clone - 1, 1, "");
+    this.stage.vars.enemyhealth.splice(this.vars.clone - 1, 1, 0);
     this.stage.vars.enemyids.splice(
       this.indexInArray(this.stage.vars.enemyids, this.vars.clone),
       1

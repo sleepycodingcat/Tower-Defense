@@ -19,8 +19,8 @@ export default class TurretDescription extends Sprite {
         y: 23.561624200114068,
       }),
       new Costume("2", "./TurretDescription/costumes/2.svg", {
-        x: 37.72402668926998,
-        y: 23.267309739893733,
+        x: 37.724021702764475,
+        y: 23.267305279673394,
       }),
     ];
 

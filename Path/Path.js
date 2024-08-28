@@ -31,6 +31,7 @@ export default class Path extends Sprite {
     while (true) {
       this.goto(0, 0);
       this.moveBehind();
+      this.effects.ghost = 100;
       yield;
     }
   }

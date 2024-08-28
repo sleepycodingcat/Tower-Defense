@@ -60,6 +60,7 @@ export default class Turret extends Sprite {
     this.vars.turrettype = 0;
     this.vars.turretreload = 0;
     this.vars.viewradius = 0;
+    this.vars.damage = 0;
   }
 
   *whenGreenFlagClicked() {
@@ -210,12 +211,14 @@ export default class Turret extends Sprite {
     this.vars.turrettype = this.stage.vars.currentturretbeingbought;
     this.costume = this.vars.turrettype;
     if (this.toString(this.vars.turrettype) === "normal") {
-      this.vars.turretreload = 0.6;
+      this.vars.turretreload = 0.4;
       this.vars.viewradius = 110;
+      this.vars.damage = 1;
     } else {
       if (this.toString(this.vars.turrettype) === "double") {
-        this.vars.turretreload = 0.4;
+        this.vars.turretreload = 0.2;
         this.vars.viewradius = 80;
+        this.vars.damage = 1;
       } else {
         null;
       }
@@ -230,7 +233,7 @@ export default class Turret extends Sprite {
   }
 
   *shootanimation() {
-    this.stage.vars.enemyprogress.splice(this.vars.targetenemy - 1, 1, "dead");
+    yield* this.dealDamage();
     if (this.toString(this.vars.turrettype) === "normal") {
       this.costume = "costume2";
       yield* this.wait(0.1);
@@ -243,11 +246,7 @@ export default class Turret extends Sprite {
         yield* this.wait(0.15);
         yield* this.turretaimandshoot();
         if (this.toString(this.vars.canshoot) === "yes") {
-          this.stage.vars.enemyprogress.splice(
-            this.vars.targetenemy - 1,
-            1,
-            "dead"
-          );
+          yield* this.dealDamage();
           this.costume = "costume5";
           yield* this.wait(0.05);
           this.costume = "double";
@@ -256,5 +255,15 @@ export default class Turret extends Sprite {
         null;
       }
     }
+  }
+
+  *dealDamage() {
+    this.stage.vars.enemyhealth.splice(
+      this.vars.targetenemy - 1,
+      1,
+      this.toNumber(
+        this.itemOf(this.stage.vars.enemyhealth, this.vars.targetenemy - 1)
+      ) - 1
+    );
   }
 }
