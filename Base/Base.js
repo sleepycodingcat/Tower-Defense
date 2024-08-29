@@ -22,6 +22,10 @@ export default class Base extends Sprite {
         x: 30.625,
         y: 30.625009999999975,
       }),
+      new Costume("laser", "./Base/costumes/laser.svg", {
+        x: 30.625,
+        y: 30.625010000000003,
+      }),
     ];
 
     this.sounds = [new Sound("pop", "./Base/sounds/pop.wav")];

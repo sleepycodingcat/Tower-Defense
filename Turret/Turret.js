@@ -34,6 +34,18 @@ export default class Turret extends Sprite {
         x: 20.125,
         y: 23.089526736380236,
       }),
+      new Costume("laser", "./Turret/costumes/laser.svg", {
+        x: 20.125,
+        y: 20.125,
+      }),
+      new Costume("charge1", "./Turret/costumes/charge1.svg", {
+        x: 20.125,
+        y: 20.125,
+      }),
+      new Costume("charge2", "./Turret/costumes/charge2.svg", {
+        x: 20.125,
+        y: 20.125,
+      }),
     ];
 
     this.sounds = [new Sound("pop", "./Turret/sounds/pop.wav")];
@@ -47,6 +59,12 @@ export default class Turret extends Sprite {
         this.whenIReceivePlaceturret
       ),
       new Trigger(Trigger.CLONE_START, this.startAsClone2),
+      new Trigger(Trigger.CLONE_START, this.startAsClone3),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "NewWave" },
+        this.whenIReceiveNewwave
+      ),
     ];
 
     this.vars.mouseAction = "none";
@@ -76,6 +94,9 @@ export default class Turret extends Sprite {
     this.stage.vars.turretx = [];
     this.stage.vars.turrety = [];
     this.stage.vars.turretviewradius = [];
+    this.stage.vars.laserx = [];
+    this.stage.vars.lasery = [];
+    this.stage.vars.laserdirection = [];
   }
 
   *startAsClone() {
@@ -88,7 +109,9 @@ export default class Turret extends Sprite {
         this.stage.vars.selectedturret = this.vars.turretclone;
         this.goto(this.mouse.x, this.mouse.y);
       } else {
-        yield* this.turretaimandshoot();
+        if (!(this.toString(this.vars.turrettype) === "laser")) {
+          yield* this.turretaimandshoot();
+        }
         if (this.toString(this.vars.canshoot) === "yes") {
           yield* this.shootanimation();
           yield* this.wait(this.toNumber(this.vars.turretreload));
@@ -220,7 +243,13 @@ export default class Turret extends Sprite {
         this.vars.viewradius = 80;
         this.vars.damage = 1;
       } else {
-        null;
+        if (this.toString(this.vars.turrettype) === "laser") {
+          this.vars.turretreload = 0.4;
+          this.vars.viewradius = 130;
+          this.stage.vars.laserdamage = 18;
+        } else {
+          null;
+        }
       }
     }
     this.vars.mouseAction = "selected";
@@ -233,13 +262,14 @@ export default class Turret extends Sprite {
   }
 
   *shootanimation() {
-    yield* this.dealDamage();
     if (this.toString(this.vars.turrettype) === "normal") {
+      yield* this.dealDamage();
       this.costume = "costume2";
       yield* this.wait(0.1);
       this.costume = "normal";
     } else {
       if (this.toString(this.vars.turrettype) === "double") {
+        yield* this.dealDamage();
         this.costume = "costume4";
         yield* this.wait(0.05);
         this.costume = "double";
@@ -252,7 +282,20 @@ export default class Turret extends Sprite {
           this.costume = "double";
         }
       } else {
-        null;
+        if (this.toString(this.vars.turrettype) === "laser") {
+          this.costume = "charge1";
+          yield* this.wait(0.3);
+          this.costume = "charge2";
+          yield* this.wait(0.1);
+          if (this.toString(this.vars.canshoot) === "yes") {
+            this.stage.vars.laserx.push(this.x);
+            this.stage.vars.lasery.push(this.y);
+            this.stage.vars.laserdirection.push(this.direction);
+          }
+          this.costume = "laser";
+        } else {
+          null;
+        }
       }
     }
   }
@@ -263,7 +306,25 @@ export default class Turret extends Sprite {
       1,
       this.toNumber(
         this.itemOf(this.stage.vars.enemyhealth, this.vars.targetenemy - 1)
-      ) - 1
+      ) - this.toNumber(this.vars.damage)
     );
+  }
+
+  *startAsClone3() {
+    while (true) {
+      if (
+        this.toString(this.vars.turrettype) === "laser" &&
+        !(this.toString(this.vars.mouseAction) === "selected")
+      ) {
+        yield* this.turretaimandshoot();
+      }
+      yield;
+    }
+  }
+
+  *whenIReceiveNewwave() {
+    this.stage.vars.laserx = [];
+    this.stage.vars.lasery = [];
+    this.stage.vars.laserdirection = [];
   }
 }

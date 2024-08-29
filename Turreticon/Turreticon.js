@@ -22,6 +22,10 @@ export default class Turreticon extends Sprite {
         x: 30.625,
         y: 30.625009999999975,
       }),
+      new Costume("costume3", "./Turreticon/costumes/costume3.svg", {
+        x: 30.625,
+        y: 30.625010000000003,
+      }),
     ];
 
     this.sounds = [new Sound("pop", "./Turreticon/sounds/pop.wav")];
@@ -41,7 +45,7 @@ export default class Turreticon extends Sprite {
       new Trigger(Trigger.CLONE_START, this.startAsClone),
     ];
 
-    this.vars.shopiconclone = 2;
+    this.vars.shopiconclone = 3;
     this.vars.isoriginalsprite = "yes";
   }
 
@@ -52,7 +56,7 @@ export default class Turreticon extends Sprite {
     this.vars.shopiconclone = 0;
     this.vars.isoriginalsprite = "no";
     this.stage.vars.turrettypes = [];
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < 3; i++) {
       this.vars.shopiconclone++;
       this.createClone();
       this.stage.vars.shopdescription.push("hide");
@@ -134,7 +138,14 @@ export default class Turreticon extends Sprite {
         this.stage.vars.turrettypes.push("double");
         this.stage.vars.turretcosts.push(100);
       } else {
-        null;
+        if (this.toNumber(this.vars.shopiconclone) === 3) {
+          this.goto(186, 22);
+          this.costume = "costume3";
+          this.stage.vars.turrettypes.push("laser");
+          this.stage.vars.turretcosts.push(150);
+        } else {
+          null;
+        }
       }
     }
   }

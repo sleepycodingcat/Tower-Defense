@@ -51,23 +51,19 @@ export default class Enemy extends Sprite {
         { name: "NewWave" },
         this.whenIReceiveNewwave
       ),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "LaserHitEnemy" },
+        this.whenIReceiveLaserhitenemy
+      ),
     ];
 
-    this.vars.moveSpeed = 1;
-    this.vars.turnSpeed = 3;
-    this.vars.clone = 32;
-    this.vars.clonecostumename = "strong";
-    this.vars.health = 4;
-    this.vars.drawcashammount = 5;
-
-    this.watchers.drawcashammount = new Watcher({
-      label: "Enemy: DrawCashAmmount",
-      style: "normal",
-      visible: true,
-      value: () => this.vars.drawcashammount,
-      x: 245,
-      y: 175,
-    });
+    this.vars.moveSpeed = 2;
+    this.vars.turnSpeed = 5;
+    this.vars.clone = 20;
+    this.vars.clonecostumename = "normal";
+    this.vars.health = 2;
+    this.vars.drawcashammount = 1;
   }
 
   *whenGreenFlagClicked() {
@@ -79,7 +75,7 @@ export default class Enemy extends Sprite {
     this.stage.vars.enemyhealth = [];
     this.stage.vars.maxenemyhealth = [];
     this.stage.vars.wave = 0;
-    this.stage.vars.cash = 100;
+    this.stage.vars.cash = 1000;
     while (!(this.toNumber(this.stage.vars.wave) === 1)) {
       yield;
     }
@@ -91,8 +87,8 @@ export default class Enemy extends Sprite {
     }
     yield* this.wait(0);
     yield* this.spawnenemy("normal", 20, 0.5);
-    yield* this.spawnenemy("fast", 8, 0.3);
-    yield* this.spawnenemy("strong", 4, 0.8);
+    yield* this.spawnenemy("fast", 8, 0.4);
+    yield* this.spawnenemy("strong", 10, 0.8);
     this.stage.vars.donespawning = "yes";
     while (!(this.toNumber(this.stage.vars.wave) === 3)) {
       yield;
@@ -189,7 +185,7 @@ export default class Enemy extends Sprite {
     if (this.toString(enemytype) === "normal") {
       this.vars.moveSpeed = 2;
       this.vars.turnSpeed = 5;
-      this.vars.health = 2;
+      this.vars.health = 3;
       this.vars.drawcashammount = 1;
     } else {
       if (this.toString(enemytype) === "fast") {
@@ -201,7 +197,7 @@ export default class Enemy extends Sprite {
         if (this.toString(enemytype) === "strong") {
           this.vars.moveSpeed = 1;
           this.vars.turnSpeed = 3;
-          this.vars.health = 4;
+          this.vars.health = 8;
           this.vars.drawcashammount = 5;
         } else {
           null;
@@ -238,5 +234,20 @@ export default class Enemy extends Sprite {
     this.costume = "pop";
     yield* this.wait(0.05);
     this.deleteThisClone();
+  }
+
+  *whenIReceiveLaserhitenemy() {
+    if (
+      this.touching(this.sprites["Laser"].andClones()) &&
+      !this.touching("edge")
+    ) {
+      this.stage.vars.enemyhealth.splice(
+        this.vars.clone - 1,
+        1,
+        this.toNumber(
+          this.itemOf(this.stage.vars.enemyhealth, this.vars.clone - 1)
+        ) - this.toNumber(this.stage.vars.laserdamage)
+      );
+    }
   }
 }

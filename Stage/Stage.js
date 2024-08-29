@@ -24,42 +24,41 @@ export default class Stage extends StageBase {
 
     this.triggers = [];
 
-    this.vars.enemycheck = 0;
+    this.vars.enemycheck = 1;
     this.vars.selectedturret = 0;
     this.vars.draggingturretonmap = "no";
-    this.vars.wave = 2;
-    this.vars.canbeginnextwave = "yes";
-    this.vars.donespawning = "yes";
-    this.vars.cash = 112;
+    this.vars.wave = 4;
+    this.vars.canbeginnextwave = "no";
+    this.vars.donespawning = "no";
+    this.vars.cash = 285;
     this.vars.canmakeclonesofwave = "no";
     this.vars.shopopen = "no";
     this.vars.currentturretbeingbought = "double";
+    this.vars.laserdamage = 18;
     this.vars.enemyx = [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -192,
     ];
     this.vars.enemyy = [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -162,
     ];
     this.vars.enemyprogress = [
-      16, 18, 18, 6, 10, 26, 56, 86, 108, 108, 106, 104, 102, 104, 102, 104,
-      104, 104, 856, 856, 108, 96, 858, 66, 42, 30, 6, 6, 26, 51, 73, 96,
+      8, 8, 8, 8, 8, 8, 10, 12, 14, 16, 18, 20, 20, 22, 20, 20, 8, 8, 8, 8,
     ];
-    this.vars.enemyids = [];
-    this.vars.turretx = [-126];
-    this.vars.turrety = [-123];
-    this.vars.turrettypes = ["normal", "double"];
-    this.vars.turretviewradius = [80];
-    this.vars.shopdescription = ["hide", "show"];
-    this.vars.turretcosts = [50, 100];
+    this.vars.enemyids = [20];
+    this.vars.turretx = [-117, -212, -119, -136, -227, -130, -224, -235, -138];
+    this.vars.turrety = [-65, 53, 85, -140, -74, -17, 3, -136, -104];
+    this.vars.turrettypes = ["normal", "double", "laser"];
+    this.vars.turretviewradius = [130, 130, 130, 130, 80, 110, 80, 110, 80];
+    this.vars.shopdescription = ["hide", "show", "hide"];
+    this.vars.turretcosts = [50, 100, 150];
     this.vars.enemyhealth = [
-      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
     ];
     this.vars.maxenemyhealth = [
-      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1,
-      1, 1, 1, 4, 4, 4, 4,
+      2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,
     ];
+    this.vars.laserx = [];
+    this.vars.lasery = [];
+    this.vars.laserdirection = [];
   }
 }

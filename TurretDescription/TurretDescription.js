@@ -22,6 +22,10 @@ export default class TurretDescription extends Sprite {
         x: 37.724021702764475,
         y: 23.267305279673394,
       }),
+      new Costume("3", "./TurretDescription/costumes/3.svg", {
+        x: 37.72402669348702,
+        y: 23.550299739893745,
+      }),
     ];
 
     this.sounds = [new Sound("pop", "./TurretDescription/sounds/pop.wav")];

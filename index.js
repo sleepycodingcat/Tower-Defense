@@ -21,6 +21,7 @@ import ShopButton from "./ShopButton/ShopButton.js";
 import ShopBackground from "./ShopBackground/ShopBackground.js";
 import Turreticon from "./Turreticon/Turreticon.js";
 import TurretDescription from "./TurretDescription/TurretDescription.js";
+import Laser from "./Laser/Laser.js";
 
 const stage = new Stage({ costumeNumber: 1 });
 
@@ -30,7 +31,7 @@ const sprites = {
     y: 0,
     direction: 114,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
-    costumeNumber: 5,
+    costumeNumber: 3,
     size: 60,
     visible: false,
     layerOrder: 7,
@@ -66,24 +67,24 @@ const sprites = {
     layerOrder: 11,
   }),
   TurretRange: new TurretRange({
-    x: -126,
-    y: -123,
+    x: -138,
+    y: -104,
     direction: 90,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 2.509484277546449,
     visible: false,
-    layerOrder: 13,
+    layerOrder: 18,
   }),
   Base: new Base({
     x: 196,
     y: 158,
     direction: 90,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
-    costumeNumber: 1,
+    costumeNumber: 3,
     size: 40,
     visible: false,
-    layerOrder: 3,
+    layerOrder: 4,
   }),
   Turretcollider: new Turretcollider({
     x: 196,
@@ -113,7 +114,7 @@ const sprites = {
     costumeNumber: 1,
     size: 100,
     visible: true,
-    layerOrder: 4,
+    layerOrder: 3,
   }),
   Startwavebuttonsprite1: new Startwavebuttonsprite1({
     x: -206,
@@ -123,7 +124,7 @@ const sprites = {
     costumeNumber: 1,
     size: 50.39999999999999,
     visible: true,
-    layerOrder: 16,
+    layerOrder: 15,
   }),
   Wavewave2: new Wavewave2({
     x: -146,
@@ -173,17 +174,17 @@ const sprites = {
     costumeNumber: 1,
     size: 100,
     visible: false,
-    layerOrder: 15,
+    layerOrder: 16,
   }),
   Turreticon: new Turreticon({
     x: 186,
     y: 138,
     direction: 90,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
-    costumeNumber: 2,
+    costumeNumber: 3,
     size: 50,
     visible: false,
-    layerOrder: 14,
+    layerOrder: 13,
   }),
   TurretDescription: new TurretDescription({
     x: 186,
@@ -194,6 +195,16 @@ const sprites = {
     size: 100,
     visible: false,
     layerOrder: 17,
+  }),
+  Laser: new Laser({
+    x: -136,
+    y: -140,
+    direction: -117.37770277133173,
+    rotationStyle: Sprite.RotationStyle.ALL_AROUND,
+    costumeNumber: 1,
+    size: 100,
+    visible: false,
+    layerOrder: 14,
   }),
 };
 
