@@ -43,7 +43,6 @@ export default class Enemy extends Sprite {
     this.sounds = [new Sound("Meow", "./Enemy/sounds/Meow.wav")];
 
     this.triggers = [
-      new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
       new Trigger(Trigger.CLONE_START, this.startAsClone),
       new Trigger(Trigger.CLONE_START, this.startAsClone2),
       new Trigger(
@@ -56,56 +55,19 @@ export default class Enemy extends Sprite {
         { name: "LaserHitEnemy" },
         this.whenIReceiveLaserhitenemy
       ),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "Start Game" },
+        this.whenIReceiveStartGame
+      ),
     ];
 
-    this.vars.moveSpeed = 2;
-    this.vars.turnSpeed = 5;
-    this.vars.clone = 20;
-    this.vars.clonecostumename = "normal";
-    this.vars.health = 2;
-    this.vars.drawcashammount = 1;
-  }
-
-  *whenGreenFlagClicked() {
-    this.visible = false;
-    this.stage.vars.enemyx = [];
-    this.stage.vars.enemyy = [];
-    this.stage.vars.enemyprogress = [];
-    this.stage.vars.enemyids = [];
-    this.stage.vars.enemyhealth = [];
-    this.stage.vars.maxenemyhealth = [];
-    this.stage.vars.wave = 0;
-    this.stage.vars.cash = 1000;
-    while (!(this.toNumber(this.stage.vars.wave) === 1)) {
-      yield;
-    }
-    yield* this.wait(0);
-    yield* this.spawnenemy("normal", 10, 0.5);
-    this.stage.vars.donespawning = "yes";
-    while (!(this.toNumber(this.stage.vars.wave) === 2)) {
-      yield;
-    }
-    yield* this.wait(0);
-    yield* this.spawnenemy("normal", 20, 0.5);
-    yield* this.spawnenemy("fast", 8, 0.4);
-    yield* this.spawnenemy("strong", 10, 0.8);
-    this.stage.vars.donespawning = "yes";
-    while (!(this.toNumber(this.stage.vars.wave) === 3)) {
-      yield;
-    }
-    yield* this.wait(0);
-    yield* this.spawnenemy("normal", 15, 0.5);
-    yield* this.spawnenemy("fast", 30, 0.3);
-    yield* this.spawnenemy("strong", 10, 0.8);
-    this.stage.vars.donespawning = "yes";
-    while (!(this.toNumber(this.stage.vars.wave) === 4)) {
-      yield;
-    }
-    yield* this.wait(0);
-    yield* this.spawnenemy("normal", 20, 0.5);
-    yield* this.spawnenemy("fast", 30, 0.3);
-    yield* this.spawnenemy("strong", 15, 0.8);
-    this.stage.vars.donespawning = "yes";
+    this.vars.moveSpeed = 1;
+    this.vars.turnSpeed = 3;
+    this.vars.clone = 55;
+    this.vars.clonecostumename = "strong";
+    this.vars.health = 8;
+    this.vars.drawcashammount = 5;
   }
 
   *enemyMovement() {
@@ -249,5 +211,47 @@ export default class Enemy extends Sprite {
         ) - this.toNumber(this.stage.vars.laserdamage)
       );
     }
+  }
+
+  *whenIReceiveStartGame() {
+    this.visible = false;
+    this.stage.vars.enemyx = [];
+    this.stage.vars.enemyy = [];
+    this.stage.vars.enemyprogress = [];
+    this.stage.vars.enemyids = [];
+    this.stage.vars.enemyhealth = [];
+    this.stage.vars.maxenemyhealth = [];
+    this.stage.vars.wave = 0;
+    this.stage.vars.cash = 200;
+    while (!(this.toNumber(this.stage.vars.wave) === 1)) {
+      yield;
+    }
+    yield* this.wait(0);
+    yield* this.spawnenemy("normal", 10, 0.5);
+    this.stage.vars.donespawning = "yes";
+    while (!(this.toNumber(this.stage.vars.wave) === 2)) {
+      yield;
+    }
+    yield* this.wait(0);
+    yield* this.spawnenemy("normal", 20, 0.5);
+    yield* this.spawnenemy("fast", 8, 0.4);
+    yield* this.spawnenemy("strong", 10, 0.8);
+    this.stage.vars.donespawning = "yes";
+    while (!(this.toNumber(this.stage.vars.wave) === 3)) {
+      yield;
+    }
+    yield* this.wait(0);
+    yield* this.spawnenemy("normal", 15, 0.5);
+    yield* this.spawnenemy("fast", 30, 0.3);
+    yield* this.spawnenemy("strong", 10, 0.8);
+    this.stage.vars.donespawning = "yes";
+    while (!(this.toNumber(this.stage.vars.wave) === 4)) {
+      yield;
+    }
+    yield* this.wait(0);
+    yield* this.spawnenemy("normal", 20, 0.5);
+    yield* this.spawnenemy("fast", 30, 0.3);
+    yield* this.spawnenemy("strong", 15, 0.8);
+    this.stage.vars.donespawning = "yes";
   }
 }

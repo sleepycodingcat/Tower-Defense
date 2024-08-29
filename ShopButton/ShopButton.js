@@ -23,7 +23,6 @@ export default class ShopButton extends Sprite {
     this.sounds = [new Sound("pop", "./ShopButton/sounds/pop.wav")];
 
     this.triggers = [
-      new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
       new Trigger(
         Trigger.BROADCAST,
         { name: "OpenShop" },
@@ -34,10 +33,27 @@ export default class ShopButton extends Sprite {
         { name: "CloseShop" },
         this.whenIReceiveCloseshop
       ),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "Start Game" },
+        this.whenIReceiveStartGame
+      ),
     ];
   }
 
-  *whenGreenFlagClicked() {
+  *whenIReceiveOpenshop() {
+    this.direction = -90;
+    this.goto(116, 144);
+    this.stage.vars.shopopen = "yes";
+  }
+
+  *whenIReceiveCloseshop() {
+    this.goto(228, 150);
+    this.stage.vars.shopopen = "no";
+    this.direction = 90;
+  }
+
+  *whenIReceiveStartGame() {
     this.visible = true;
     this.goto(228, 150);
     this.direction = 90;
@@ -57,17 +73,5 @@ export default class ShopButton extends Sprite {
       }
       yield;
     }
-  }
-
-  *whenIReceiveOpenshop() {
-    this.direction = -90;
-    this.goto(116, 144);
-    this.stage.vars.shopopen = "yes";
-  }
-
-  *whenIReceiveCloseshop() {
-    this.goto(228, 150);
-    this.stage.vars.shopopen = "no";
-    this.direction = 90;
   }
 }

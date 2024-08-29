@@ -51,7 +51,6 @@ export default class Turret extends Sprite {
     this.sounds = [new Sound("pop", "./Turret/sounds/pop.wav")];
 
     this.triggers = [
-      new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
       new Trigger(Trigger.CLONE_START, this.startAsClone),
       new Trigger(
         Trigger.BROADCAST,
@@ -64,6 +63,11 @@ export default class Turret extends Sprite {
         Trigger.BROADCAST,
         { name: "NewWave" },
         this.whenIReceiveNewwave
+      ),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "Start Game" },
+        this.whenIReceiveStartGame
       ),
     ];
 
@@ -79,24 +83,6 @@ export default class Turret extends Sprite {
     this.vars.turretreload = 0;
     this.vars.viewradius = 0;
     this.vars.damage = 0;
-  }
-
-  *whenGreenFlagClicked() {
-    this.visible = false;
-    this.size = 40;
-    this.costume = "normal";
-    this.goto(196, 158);
-    this.vars.mouseAction = "none";
-    this.vars.isoriginalsprite = "yes";
-    this.vars.turretclone = 0;
-    this.stage.vars.draggingturretonmap = "no";
-    this.stage.vars.selectedturret = 0;
-    this.stage.vars.turretx = [];
-    this.stage.vars.turrety = [];
-    this.stage.vars.turretviewradius = [];
-    this.stage.vars.laserx = [];
-    this.stage.vars.lasery = [];
-    this.stage.vars.laserdirection = [];
   }
 
   *startAsClone() {
@@ -323,6 +309,24 @@ export default class Turret extends Sprite {
   }
 
   *whenIReceiveNewwave() {
+    this.stage.vars.laserx = [];
+    this.stage.vars.lasery = [];
+    this.stage.vars.laserdirection = [];
+  }
+
+  *whenIReceiveStartGame() {
+    this.visible = false;
+    this.size = 40;
+    this.costume = "normal";
+    this.goto(196, 158);
+    this.vars.mouseAction = "none";
+    this.vars.isoriginalsprite = "yes";
+    this.vars.turretclone = 0;
+    this.stage.vars.draggingturretonmap = "no";
+    this.stage.vars.selectedturret = 0;
+    this.stage.vars.turretx = [];
+    this.stage.vars.turrety = [];
+    this.stage.vars.turretviewradius = [];
     this.stage.vars.laserx = [];
     this.stage.vars.lasery = [];
     this.stage.vars.laserdirection = [];

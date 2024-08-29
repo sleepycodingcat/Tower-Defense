@@ -23,26 +23,20 @@ export default class Laser extends Sprite {
     this.sounds = [new Sound("pop", "./Laser/sounds/pop.wav")];
 
     this.triggers = [
-      new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
       new Trigger(
         Trigger.BROADCAST,
         { name: "NewWave" },
         this.whenIReceiveNewwave
       ),
       new Trigger(Trigger.CLONE_START, this.startAsClone),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "Start Game" },
+        this.whenIReceiveStartGame
+      ),
     ];
 
-    this.vars.laser = 0;
-  }
-
-  *whenGreenFlagClicked() {
-    this.visible = false;
-    this.vars.laser = 0;
-    yield* this.wait(0);
-    while (true) {
-      yield* this.spawnlaserclones();
-      yield;
-    }
+    this.vars.laser = 31;
   }
 
   *whenIReceiveNewwave() {
@@ -77,5 +71,15 @@ export default class Laser extends Sprite {
       yield;
     }
     this.deleteThisClone();
+  }
+
+  *whenIReceiveStartGame() {
+    this.visible = false;
+    this.vars.laser = 0;
+    yield* this.wait(0);
+    while (true) {
+      yield* this.spawnlaserclones();
+      yield;
+    }
   }
 }

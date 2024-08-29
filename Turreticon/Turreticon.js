@@ -31,7 +31,6 @@ export default class Turreticon extends Sprite {
     this.sounds = [new Sound("pop", "./Turreticon/sounds/pop.wav")];
 
     this.triggers = [
-      new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
       new Trigger(
         Trigger.BROADCAST,
         { name: "OpenShop" },
@@ -43,25 +42,14 @@ export default class Turreticon extends Sprite {
         this.whenIReceiveCloseshop
       ),
       new Trigger(Trigger.CLONE_START, this.startAsClone),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "Start Game" },
+        this.whenIReceiveStartGame
+      ),
     ];
 
     this.vars.shopiconclone = 3;
-    this.vars.isoriginalsprite = "yes";
-  }
-
-  *whenGreenFlagClicked() {
-    this.visible = false;
-    this.stage.vars.shopdescription = [];
-    this.stage.vars.turretcosts = [];
-    this.vars.shopiconclone = 0;
-    this.vars.isoriginalsprite = "no";
-    this.stage.vars.turrettypes = [];
-    for (let i = 0; i < 3; i++) {
-      this.vars.shopiconclone++;
-      this.createClone();
-      this.stage.vars.shopdescription.push("hide");
-      yield;
-    }
     this.vars.isoriginalsprite = "yes";
   }
 
@@ -148,5 +136,21 @@ export default class Turreticon extends Sprite {
         }
       }
     }
+  }
+
+  *whenIReceiveStartGame() {
+    this.visible = false;
+    this.stage.vars.shopdescription = [];
+    this.stage.vars.turretcosts = [];
+    this.vars.shopiconclone = 0;
+    this.vars.isoriginalsprite = "no";
+    this.stage.vars.turrettypes = [];
+    for (let i = 0; i < 3; i++) {
+      this.vars.shopiconclone++;
+      this.createClone();
+      this.stage.vars.shopdescription.push("hide");
+      yield;
+    }
+    this.vars.isoriginalsprite = "yes";
   }
 }

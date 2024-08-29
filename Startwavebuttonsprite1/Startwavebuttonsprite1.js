@@ -24,22 +24,48 @@ export default class Startwavebuttonsprite1 extends Sprite {
     this.sounds = [new Sound("pop", "./Startwavebuttonsprite1/sounds/pop.wav")];
 
     this.triggers = [
-      new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
       new Trigger(
         Trigger.BROADCAST,
         { name: "NewWave" },
         this.whenIReceiveNewwave
       ),
-      new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked2),
+      new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
       new Trigger(
         Trigger.BROADCAST,
         { name: "Finished wave " },
         this.whenIReceiveFinishedWave
       ),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "Start Game" },
+        this.whenIReceiveStartGame
+      ),
     ];
   }
 
+  *whenIReceiveNewwave() {
+    this.stage.vars.wave++;
+    this.stage.vars.canbeginnextwave = "no";
+    this.effects.brightness = -50;
+  }
+
   *whenGreenFlagClicked() {
+    while (true) {
+      if (this.touching("mouse")) {
+        null;
+      } else {
+        this.size += 0.2 * (50 - this.size);
+        this.effects.color = 0;
+      }
+      yield;
+    }
+  }
+
+  *whenIReceiveFinishedWave() {
+    this.stage.vars.cash += 25;
+  }
+
+  *whenIReceiveStartGame() {
     this.goto(-206, 147);
     this.size = 10;
     yield* this.wait(0.1);
@@ -72,27 +98,5 @@ export default class Startwavebuttonsprite1 extends Sprite {
       }
       yield;
     }
-  }
-
-  *whenIReceiveNewwave() {
-    this.stage.vars.wave++;
-    this.stage.vars.canbeginnextwave = "no";
-    this.effects.brightness = -50;
-  }
-
-  *whenGreenFlagClicked2() {
-    while (true) {
-      if (this.touching("mouse")) {
-        null;
-      } else {
-        this.size += 0.2 * (50 - this.size);
-        this.effects.color = 0;
-      }
-      yield;
-    }
-  }
-
-  *whenIReceiveFinishedWave() {
-    this.stage.vars.cash += 25;
   }
 }

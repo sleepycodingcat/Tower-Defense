@@ -31,23 +31,20 @@ export default class Base extends Sprite {
     this.sounds = [new Sound("pop", "./Base/sounds/pop.wav")];
 
     this.triggers = [
-      new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
       new Trigger(Trigger.CLONE_START, this.startAsClone),
       new Trigger(
         Trigger.BROADCAST,
         { name: "PlaceTurret" },
         this.whenIReceivePlaceturret
       ),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "Start Game" },
+        this.whenIReceiveStartGame
+      ),
     ];
 
     this.vars.mouseaction = "none";
-  }
-
-  *whenGreenFlagClicked() {
-    this.size = 40;
-    this.moveBehind();
-    this.visible = false;
-    this.goto(196, 158);
   }
 
   *startAsClone() {
@@ -67,5 +64,12 @@ export default class Base extends Sprite {
 
   *whenIReceivePlaceturret() {
     this.vars.mouseaction = "none";
+  }
+
+  *whenIReceiveStartGame() {
+    this.size = 40;
+    this.moveBehind();
+    this.visible = false;
+    this.goto(196, 158);
   }
 }

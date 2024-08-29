@@ -22,6 +22,7 @@ import ShopBackground from "./ShopBackground/ShopBackground.js";
 import Turreticon from "./Turreticon/Turreticon.js";
 import TurretDescription from "./TurretDescription/TurretDescription.js";
 import Laser from "./Laser/Laser.js";
+import MainMenu from "./MainMenu/MainMenu.js";
 
 const stage = new Stage({ costumeNumber: 1 });
 
@@ -31,7 +32,7 @@ const sprites = {
     y: 0,
     direction: 114,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
-    costumeNumber: 3,
+    costumeNumber: 5,
     size: 60,
     visible: false,
     layerOrder: 7,
@@ -67,8 +68,8 @@ const sprites = {
     layerOrder: 11,
   }),
   TurretRange: new TurretRange({
-    x: -138,
-    y: -104,
+    x: -201,
+    y: 41,
     direction: 90,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
@@ -84,7 +85,7 @@ const sprites = {
     costumeNumber: 3,
     size: 40,
     visible: false,
-    layerOrder: 4,
+    layerOrder: 3,
   }),
   Turretcollider: new Turretcollider({
     x: 196,
@@ -114,7 +115,7 @@ const sprites = {
     costumeNumber: 1,
     size: 100,
     visible: true,
-    layerOrder: 3,
+    layerOrder: 4,
   }),
   Startwavebuttonsprite1: new Startwavebuttonsprite1({
     x: -206,
@@ -197,14 +198,24 @@ const sprites = {
     layerOrder: 17,
   }),
   Laser: new Laser({
-    x: -136,
+    x: -126,
     y: -140,
-    direction: -117.37770277133173,
+    direction: -88.27911430850483,
     rotationStyle: Sprite.RotationStyle.ALL_AROUND,
     costumeNumber: 1,
     size: 100,
     visible: false,
     layerOrder: 14,
+  }),
+  MainMenu: new MainMenu({
+    x: 0,
+    y: -33,
+    direction: 90,
+    rotationStyle: Sprite.RotationStyle.ALL_AROUND,
+    costumeNumber: 1,
+    size: 100.39999999999998,
+    visible: true,
+    layerOrder: 19,
   }),
 };
 

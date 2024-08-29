@@ -23,11 +23,15 @@ export default class TurretRange extends Sprite {
     this.sounds = [new Sound("pop", "./TurretRange/sounds/pop.wav")];
 
     this.triggers = [
-      new Trigger(Trigger.GREEN_FLAG, this.whenGreenFlagClicked),
+      new Trigger(
+        Trigger.BROADCAST,
+        { name: "Start Game" },
+        this.whenIReceiveStartGame
+      ),
     ];
   }
 
-  *whenGreenFlagClicked() {
+  *whenIReceiveStartGame() {
     this.visible = false;
     this.effects.ghost = 50;
     while (true) {
